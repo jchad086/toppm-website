@@ -1,0 +1,213 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import ContactForm from '../components/ContactForm.astro';
+import ServiceGrid from '../components/ServiceGrid.astro';
+import Testimonials from '../components/Testimonials.astro';
+import ListingCard from '../components/ListingCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site, pricing, partners, whyChooseUs } from '../data/site';
+import { serviceSchema } from '../components/schema/localBusiness';
+import heroPhoto from '../assets/photos/hero-house.jpg';
+import trustPhoto from '../assets/photos/living-room.jpg';
+
+const listings = (await getCollection('listings')).sort((a, b) => {
+  if (a.data.status !== b.data.status) return a.data.status === 'available' ? -1 : 1;
+  return b.data.dateListed.getTime() - a.data.dateListed.getTime();
+}).slice(0, 3);
+const available = listings.filter((l) => l.data.status === 'available').length;
+
+const title = 'TOP Property Management | Cornwall Property Management | Cornwall, ON';
+const description = site.description;
+const jsonLd = [serviceSchema('Residential property management in Cornwall, Ontario', 'Full-service rental property management including tenant screening, rent collection, maintenance, lease management and 24/7 emergency support.', '/')];
+---
+<Base {title} {description} {jsonLd} image="/og/home.png">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <p class="eyebrow">Cornwall rental services</p>
+        <h1>Cornwall Property Management That You Can <span class="accent">Trust</span></h1>
+        <p class="lead">We connect trustworthy homeowners with quality renters in Cornwall, Ontario and across SD&amp;G, and we keep both sides happy with transparent accounting, fast maintenance and a team that actually picks up the phone.</p>
+        <div class="cluster hero__actions">
+          <a href="/property-owners" class="btn btn--primary btn--lg">I own a property</a>
+          <a href="/renters" class="btn btn--outline btn--lg">I’m looking to rent</a>
+        </div>
+        <ul class="hero__trust">
+          <li><Icon name="shield" size={20} /> {site.yearsExperience} years managing Cornwall rentals</li>
+          <li><Icon name="dollar" size={20} /> Rent in your account by the {pricing.directDepositDay}</li>
+          <li><Icon name="clock" size={20} /> 24/7 emergency line</li>
+        </ul>
+      </div>
+      <div class="hero__form">
+        <ContactForm heading="Let’s handle your property needs" subject="Home page enquiry — toppm.ca" compact id="hero-contact" />
+      </div>
+    </div>
+    <div class="hero__photo">
+      <Image src={heroPhoto} alt="Red brick home with a covered front porch on a tree-lined residential street" widths={[640, 1200, 1800]} sizes="100vw" loading="eager" fetchpriority="high" />
+    </div>
+  </section>
+
+  <!-- Stats strip -->
+  <section class="section--tight section--white stats">
+    <div class="container">
+      <ul class="stats__list">
+        <li><strong>{site.yearsExperience}</strong><span>years of local experience</span></li>
+        <li><strong>${pricing.monthlyFee}</strong><span>flat monthly fee per unit</span></li>
+        <li><strong>24/7</strong><span>emergency support for renters</span></li>
+        <li><strong>{pricing.directDepositDay}</strong><span>of the month: rent direct-deposited</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Services</p>
+        <h2>Services for Property Management in Cornwall, ON</h2>
+        <p>Everything a rental needs, from the first showing to the year-end statement. Pick full-service management or just the pieces you need.</p>
+      </div>
+      <ServiceGrid />
+      <p class="center services__more"><a href="/about-us/cornwall-property-management#ServicesandPricing" class="link-arrow">See the full service list and pricing</a></p>
+    </div>
+  </section>
+
+  <!-- Trust / why us -->
+  <section class="section section--mint">
+    <div class="container split split--wide-left">
+      <div>
+        <p class="eyebrow">Cornwall property management</p>
+        <h2>Building Trust Between Homeowners and Renters</h2>
+        <p class="lead">Trust is the cornerstone of effective property management. We work to foster open communication, transparency and respect between owners and renters. That protects your investment and gives renters a place that feels like home.</p>
+        <ul class="check-list">
+          {whyChooseUs.slice(0, 4).map((w) => <li><strong>{w.title}.</strong> {w.text}</li>)}
+        </ul>
+        <a href="/about-us/cornwall-property-management#WhyChooseUs" class="btn btn--navy">Why owners choose us</a>
+      </div>
+      <div class="photo-frame">
+        <Image src={trustPhoto} alt="Bright, freshly painted living room with hardwood floors and large windows" widths={[480, 800, 1200]} sizes="(min-width: 900px) 45vw, 100vw" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Audience split -->
+  <section class="section">
+    <div class="container grid grid--2">
+      <article class="audience card">
+        <div class="icon-badge"><Icon name="home" /></div>
+        <h3>For property owners</h3>
+        <p>Hands-off management for ${pricing.monthlyFee} per unit per month. Tenant placement, rent collection, maintenance, inspections and clear monthly reporting, with volume discounts from five units.</p>
+        <ul class="check-list">
+          <li>Thorough screening: credit, income, references, eviction history</li>
+          <li>No trip charges or minimums on in-house maintenance</li>
+          <li>Monthly and year-end statements in PDF or Excel</li>
+        </ul>
+        <a href="/property-owners" class="btn btn--primary">Owner services &amp; pricing</a>
+      </article>
+      <article class="audience card">
+        <div class="icon-badge"><Icon name="key" /></div>
+        <h3>For renters</h3>
+        <p>Well-maintained homes and apartments in Cornwall and SD&amp;G, a simple application process, and a responsive team when something needs fixing.</p>
+        <ul class="check-list">
+          <li>Browse current listings or sign up for alerts</li>
+          <li>Smart locks, welcome gifts and quick repairs</li>
+          <li>24/7 emergency line for urgent issues</li>
+        </ul>
+        <a href="/renters" class="btn btn--navy">Renter information</a>
+      </article>
+    </div>
+  </section>
+
+  <Testimonials />
+
+  <!-- Rentals -->
+  <section class="section" id="rentals">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Cornwall rentals</p>
+        <h2>{available > 0 ? 'Available Rental Properties in Cornwall' : 'Recently Rented Properties in Cornwall'}</h2>
+        <p>{available > 0 ? 'Current listings managed by TOP Property Management.' : 'Our listings move quickly. Get alerts and be first to hear when something new comes up.'}</p>
+      </div>
+      <div class="grid grid--3">
+        {listings.map((l) => <ListingCard listing={l} />)}
+      </div>
+      <div class="cluster rentals__actions">
+        <a href="/cornwall-rental-properties" class="btn btn--outline">All rental listings</a>
+        <a href={site.listingAlertsUrl} class="btn btn--primary" rel="noopener" target="_blank">Get alerts for new listings</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Referrals -->
+  <section class="section section--mint-50" id="referrals">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Referrals and acquisitions</p>
+        <h2>We Pay for Referrals and Buy Management Contracts</h2>
+        <p>If you are a real estate agent, contractor or owner in the Cornwall area, we pay for referring a property owner or buyer who becomes a client.</p>
+        <p>We also purchase property management contracts from companies that no longer wish to manage property, are retiring, or need some extra income.</p>
+        <a href="/contact-us/cornwall-property-management" class="btn btn--primary">I have a deal</a>
+      </div>
+      <div class="partners">
+        <p class="eyebrow">Our partners</p>
+        <h3>We only partner with the best</h3>
+        <ul class="partners__list">
+          {partners.map((p) => (
+            <li class="card">
+              <h4><a href={p.url} rel="noopener" target="_blank">{p.name}</a></h4>
+              <p>{p.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand heading="Get started with Cornwall’s trusted property management experts" text="Whether you’re a homeowner ready to maximize your investment or a renter looking for a great place to live, we’re here to help. Reach out to learn more or to schedule a consultation." />
+</Base>
+
+<style>
+  .hero { background: var(--mint); position: relative; overflow: hidden; }
+  .hero__inner { display: grid; gap: 2.5rem; padding-block: clamp(2.5rem, 6vw, 5rem) clamp(2rem, 5vw, 4rem); position: relative; z-index: 1; }
+  @media (min-width: 960px) { .hero__inner { grid-template-columns: 1.15fr 0.85fr; align-items: center; } }
+  .hero h1 { max-width: 14ch; }
+  .hero h1 .accent { color: var(--green); }
+  .hero .lead { max-width: 54ch; }
+  .hero__actions { margin: 1.75rem 0; }
+  .hero__trust { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; color: var(--navy); font-weight: 500; font-size: 0.95rem; }
+  .hero__trust li { display: inline-flex; gap: 0.5rem; align-items: center; }
+  .hero__trust svg { color: var(--green); }
+  .hero__photo { height: clamp(220px, 32vw, 420px); position: relative; }
+  .hero__photo img { width: 100%; height: 100%; object-fit: cover; }
+  .hero__photo::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, var(--mint) 0%, transparent 30%); z-index: 1; pointer-events: none; }
+
+  .stats { border-bottom: 1px solid var(--border); }
+  .stats__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem; grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 800px) { .stats__list { grid-template-columns: repeat(4, 1fr); } }
+  .stats__list li { display: grid; gap: 0.15rem; text-align: center; }
+  .stats__list strong { font-family: var(--font-heading); font-size: var(--step-4); color: var(--green); line-height: 1; font-weight: 700; }
+  .stats__list span { color: var(--text-muted); font-size: 0.95rem; }
+
+  .services__more { margin-top: 2rem; }
+  .photo-frame { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); aspect-ratio: 4 / 3; }
+  .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+  .split .check-list { margin: 1.5rem 0 2rem; }
+  .split .check-list li { color: var(--text-muted); }
+  .split .check-list strong { color: var(--navy); }
+
+  .audience { display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+  .audience h3 { margin: 0; font-size: var(--step-2); }
+  .audience .check-list { color: var(--text-muted); }
+  .audience .btn { margin-top: auto; }
+
+  .rentals__actions { margin-top: 2rem; justify-content: center; }
+
+  .partners__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+  .partners__list h4 { margin: 0 0 0.25rem; }
+  .partners__list h4 a { text-decoration: none; color: var(--navy); }
+  .partners__list h4 a:hover { color: var(--green); text-decoration: underline; }
+  .partners__list p { margin: 0; }
+</style>

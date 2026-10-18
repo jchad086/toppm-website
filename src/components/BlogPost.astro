@@ -1,0 +1,72 @@
+---
+import { render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import CtaBand from './CtaBand.astro';
+import { site } from '../data/site';
+
+interface Props { post: CollectionEntry<'blog'>; path: string }
+const { post, path } = Astro.props;
+const { data } = post;
+const { Content, headings } = await render(post);
+const title = data.seoTitle ?? `${data.title} | ${site.name}`;
+const breadcrumbs = [{ name: 'Home', href: '/' }, { name: 'Blog', href: '/blog' }, { name: data.title, href: path }];
+const fmt = (d: Date) => d.toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' });
+const toc = headings.filter((h) => h.depth === 2);
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: data.title,
+  description: data.description,
+  datePublished: data.pubDate.toISOString(),
+  dateModified: (data.updatedDate ?? data.pubDate).toISOString(),
+  author: { '@type': 'Organization', name: data.author, url: site.url },
+  publisher: { '@id': `${site.url}/#business` },
+  mainEntityOfPage: new URL(path, site.url).href,
+  image: new URL(`/og/${path.slice(1).replace(/\//g, '--')}.png`, site.url).href,
+  inLanguage: 'en-CA',
+}];
+---
+<Base {title} description={data.description} {breadcrumbs} {jsonLd} type="article" publishedTime={data.pubDate} modifiedTime={data.updatedDate}>
+  <article>
+    <header class="page-hero">
+      <div class="container--narrow">
+        <Breadcrumbs items={breadcrumbs} />
+        <p class="eyebrow">{data.tags.includes('landlords') ? 'Landlord guide' : 'Blog'}</p>
+        <h1>{data.title}</h1>
+        <p class="lead">{data.description}</p>
+        <p class="post-meta small muted">
+          Published {fmt(data.pubDate)}{data.updatedDate && data.updatedDate.getTime() !== data.pubDate.getTime() && ` · Updated ${fmt(data.updatedDate)}`} · By {data.author}
+        </p>
+      </div>
+    </header>
+
+    <div class="section">
+      <div class="container post-layout">
+        {toc.length > 2 && (
+          <nav class="toc" aria-label="On this page">
+            <p class="toc__title">On this page</p>
+            <ol>{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+          </nav>
+        )}
+        <div class="prose post-body">
+          <Content />
+        </div>
+      </div>
+    </div>
+  </article>
+  <CtaBand heading="Rather not deal with LTB paperwork yourself?" text="TOP Property Management handles notices, filings, screening and collections for owners across Cornwall and SD&G." primaryHref="/property-owners" primaryLabel="See owner services" />
+</Base>
+
+<style>
+  .post-meta { margin-top: 1rem; }
+  .post-layout { display: grid; gap: 2.5rem; }
+  @media (min-width: 1000px) { .post-layout { grid-template-columns: 16rem minmax(0, 1fr); align-items: start; } .toc { position: sticky; top: calc(var(--header-h) + 1.5rem); } }
+  .toc { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; font-size: 0.95rem; }
+  .toc__title { font-family: var(--font-heading); font-weight: 600; color: var(--navy); margin-bottom: 0.6rem; }
+  .toc ol { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.4rem; }
+  .toc a { color: var(--text-muted); text-decoration: none; }
+  .toc a:hover { color: var(--green); text-decoration: underline; }
+  .post-body { max-width: 72ch; }
+</style>

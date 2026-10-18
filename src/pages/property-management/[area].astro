@@ -1,0 +1,103 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ServiceGrid from '../../components/ServiceGrid.astro';
+import Faq from '../../components/Faq.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import Testimonials from '../../components/Testimonials.astro';
+import Icon from '../../components/Icon.astro';
+import { site, pricing } from '../../data/site';
+import { faqSchema, serviceSchema } from '../../components/schema/localBusiness';
+import photo from '../../assets/photos/hero-house.jpg';
+
+export async function getStaticPaths() {
+  const areas = await getCollection('areas');
+  return areas.map((area) => ({ params: { area: area.id }, props: { area } }));
+}
+const { area } = Astro.props;
+const { data } = area;
+const { Content } = await render(area);
+const others = (await getCollection('areas')).filter((a) => a.id !== area.id).sort((a, b) => a.data.order - b.data.order);
+const path = `/property-management/${area.id}`;
+const breadcrumbs = [{ name: 'Home', href: '/' }, { name: 'Service areas', href: '/about-us/cornwall-property-management' }, { name: data.name, href: path }];
+const jsonLd = [
+  faqSchema(data.faqs),
+  serviceSchema(`Property management in ${data.name}, Ontario`, data.description, path),
+];
+---
+<Base title={data.seoTitle} description={data.description} {breadcrumbs} {jsonLd}>
+  <section class="page-hero">
+    <div class="container">
+      <Breadcrumbs items={breadcrumbs} />
+      <p class="eyebrow">{data.township ?? 'SD&G'} · {data.driveTime}</p>
+      <h1>{data.name} Property Management</h1>
+      <p class="lead">{data.intro}</p>
+      <div class="cluster">
+        <a href="#area-contact" class="btn btn--primary btn--lg">Get a free rental assessment</a>
+        <a href={site.phone.href} class="btn btn--outline btn--lg"><Icon name="phone" size={18} /> {site.phone.display}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div class="prose"><Content /></div>
+      <div>
+        <div class="photo-frame"><Image src={photo} alt={`Residential home in the ${data.name} area`} widths={[480, 800, 1200]} sizes="(min-width: 900px) 45vw, 100vw" loading="lazy" /></div>
+        {data.highlights.length > 0 && (
+          <div class="card card--mint highlights">
+            <h3>Renting in {data.name}</h3>
+            <ul class="check-list">{data.highlights.map((h) => <li>{h}</li>)}</ul>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mint">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Services</p>
+        <h2>Property management services in {data.name}</h2>
+        <p>The same full-service management we provide in Cornwall, for a flat ${pricing.monthlyFee} per unit per month.</p>
+      </div>
+      <ServiceGrid />
+      <p class="center more"><a href="/about-us/cornwall-property-management#ServicesandPricing" class="link-arrow">Full service list and pricing</a></p>
+    </div>
+  </section>
+
+  <Testimonials />
+
+  <section class="section">
+    <div class="container area-grid">
+      <div>
+        {data.faqs.length > 0 && <Faq heading={`${data.name} questions`} items={data.faqs} />}
+        <div class="nearby">
+          <h3>Other areas we serve</h3>
+          <ul class="area-list">
+            <li><a href="/">Cornwall</a></li>
+            {others.map((o) => <li><a href={`/property-management/${o.id}`}>{o.data.name}</a></li>)}
+          </ul>
+        </div>
+      </div>
+      <ContactForm heading={`Manage a property in ${data.name}?`} intro="Tell us about it and we’ll come back with a rent estimate and what management would cost." subject={`${data.name} owner enquiry — toppm.ca`} defaultRole="owner" id="area-contact" />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .photo-frame { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); aspect-ratio: 4 / 3; }
+  .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+  .highlights { margin-top: 1.5rem; }
+  .highlights h3 { font-size: var(--step-1); }
+  .highlights .check-list li { color: var(--text-muted); margin-bottom: 0.5rem; }
+  .more { margin-top: 2rem; }
+  .area-grid { display: grid; gap: 2.5rem; }
+  @media (min-width: 960px) { .area-grid { grid-template-columns: 1.1fr 1fr; align-items: start; } }
+  .nearby { margin-top: 2.5rem; }
+  .area-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .area-list a { display: inline-block; padding: 0.5rem 1rem; background: #fff; border: 1px solid var(--border); border-radius: 999px; text-decoration: none; color: var(--navy); font-family: var(--font-heading); font-weight: 500; font-size: 0.95rem; }
+  .area-list a:hover { border-color: var(--green); color: var(--green); }
+</style>

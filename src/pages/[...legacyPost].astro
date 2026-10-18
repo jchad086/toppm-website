@@ -1,0 +1,15 @@
+---
+/**
+ * Serves blog posts that keep a legacy URL from the previous site
+ * (e.g. /how-to-file-n4-form) so existing rankings and links are preserved.
+ */
+import { getCollection } from 'astro:content';
+import BlogPost from '../components/BlogPost.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft && !!data.legacyPath);
+  return posts.map((post) => ({ params: { legacyPost: post.data.legacyPath!.replace(/^\//, '') }, props: { post } }));
+}
+const { post } = Astro.props;
+---
+<BlogPost post={post} path={post.data.legacyPath!} />

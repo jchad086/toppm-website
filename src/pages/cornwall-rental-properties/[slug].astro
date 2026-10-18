@@ -1,0 +1,103 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import Icon from '../../components/Icon.astro';
+import { site } from '../../data/site';
+
+export async function getStaticPaths() {
+  const listings = await getCollection('listings');
+  return listings.map((listing) => ({ params: { slug: listing.id }, props: { listing } }));
+}
+const { listing } = Astro.props;
+const { data } = listing;
+const { Content } = await render(listing);
+const isAvailable = data.status === 'available';
+const title = data.seoTitle ?? `${data.title} | ${data.address} | ${site.name}`;
+const description = data.seoDescription ?? data.summary;
+const breadcrumbs = [{ name: 'Home', href: '/' }, { name: 'Rental Listings', href: '/cornwall-rental-properties' }, { name: data.address, href: `/cornwall-rental-properties/${listing.id}` }];
+const ogImage = data.photos[0] ? data.photos[0].src : undefined;
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': 'Apartment',
+  name: data.title,
+  description: data.summary,
+  numberOfBedrooms: data.beds,
+  ...(data.baths ? { numberOfBathroomsTotal: data.baths } : {}),
+  address: { '@type': 'PostalAddress', streetAddress: data.address.split(',')[0], addressLocality: 'Cornwall', addressRegion: 'ON', addressCountry: 'CA' },
+  ...(data.photos[0] ? { image: new URL(data.photos[0].src, site.url).href } : {}),
+}];
+---
+<Base {title} {description} {breadcrumbs} {jsonLd} image={ogImage} imageAlt={data.photoAlts[0] ?? data.title}>
+  <section class="page-hero listing-hero">
+    <div class="container">
+      <Breadcrumbs items={breadcrumbs} />
+      <p class="eyebrow">Cornwall rental property</p>
+      <h1>{data.title}</h1>
+      <p class="lead listing-hero__address"><Icon name="pin" size={20} /> {data.address}{data.neighbourhood && <span class="muted"> · {data.neighbourhood}</span>}</p>
+      <div class="cluster listing-hero__meta">
+        <span class:list={['badge', isAvailable ? 'badge--available' : 'badge--rented']}>{isAvailable ? 'Available' : 'Happily rented'}</span>
+        <span class="meta"><Icon name="bed" size={18} /> {data.beds} bedroom{data.beds === 1 ? '' : 's'}</span>
+        {data.baths && <span class="meta"><Icon name="bath" size={18} /> {data.baths} bathroom{data.baths === 1 ? '' : 's'}</span>}
+        <span class="meta"><Icon name="home" size={18} /> {data.propertyType}</span>
+        <span class="meta"><Icon name="dollar" size={18} /> {data.rent ? `$${data.rent.toLocaleString('en-CA')} / month` : isAvailable ? 'Contact for rent' : 'Rented'}{data.rentNote && ` · ${data.rentNote}`}</span>
+      </div>
+    </div>
+  </section>
+
+  {data.photos.length > 0 && (
+    <section class="gallery-wrap">
+      <div class="container">
+        <div class="gallery">
+          {data.photos.map((p, i) => (
+            <figure class:list={['gallery__item', { 'gallery__item--lead': i === 0 }]}>
+              <Image src={p} alt={data.photoAlts[i] ?? `${data.title} photo ${i + 1}`} widths={[480, 800, 1200]} sizes={i === 0 ? '(min-width: 900px) 60vw, 100vw' : '(min-width: 900px) 30vw, 50vw'} loading={i === 0 ? 'eager' : 'lazy'} />
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container listing-grid">
+      <div class="listing-body">
+        <h2>About this property</h2>
+        <div class="prose"><Content /></div>
+        <h3>Features</h3>
+        <ul class="check-list two-col">{data.features.map((f) => <li>{f}</li>)}</ul>
+        {!isAvailable && (
+          <div class="card card--mint rented-note">
+            <h3>This unit has been rented</h3>
+            <p>Our listings move fast. Sign up for alerts and you’ll hear about the next one before it reaches the public rental sites.</p>
+            <a href={site.listingAlertsUrl} class="btn btn--primary" rel="noopener" target="_blank">Get alerts for listings</a>
+          </div>
+        )}
+      </div>
+      <aside class="listing-aside">
+        <ContactForm heading={isAvailable ? 'Ask about this unit' : 'Ask about similar units'} subject={`Listing enquiry: ${data.address}`} defaultRole="renter" compact id="listing-contact" />
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .listing-hero__address { display: flex; align-items: center; flex-wrap: wrap; gap: 0.4rem; }
+  .listing-hero__meta { margin-top: 1rem; gap: 1rem; }
+  .meta { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--navy); font-weight: 500; }
+  .gallery-wrap { background: var(--mint); padding-bottom: clamp(2rem, 5vw, 4rem); margin-top: -1px; }
+  .gallery { display: grid; gap: 0.75rem; grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 900px) { .gallery { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; } .gallery__item--lead { grid-column: span 2; grid-row: span 2; } }
+  .gallery__item { margin: 0; border-radius: var(--radius); overflow: hidden; aspect-ratio: 4 / 3; background: #fff; box-shadow: var(--shadow-sm); }
+  @media (min-width: 900px) { .gallery__item { aspect-ratio: auto; } }
+  .gallery__item img { width: 100%; height: 100%; object-fit: cover; }
+  .listing-grid { display: grid; gap: 2.5rem; }
+  @media (min-width: 960px) { .listing-grid { grid-template-columns: 1.4fr 1fr; align-items: start; } .listing-aside { position: sticky; top: calc(var(--header-h) + 1rem); } }
+  .listing-body h3 { margin-top: 2rem; }
+  .two-col { columns: 1; }
+  @media (min-width: 640px) { .two-col { columns: 2; column-gap: 2rem; } .two-col li { break-inside: avoid; } }
+  .rented-note { margin-top: 2rem; display: grid; gap: 0.75rem; justify-items: start; }
+  .rented-note h3 { margin: 0; }
+</style>

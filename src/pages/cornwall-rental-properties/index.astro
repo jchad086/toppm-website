@@ -1,0 +1,122 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ListingCard from '../../components/ListingCard.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import { site } from '../../data/site';
+import photo from '../../assets/photos/bright-room.jpg';
+
+const all = (await getCollection('listings')).sort((a, b) => b.data.dateListed.getTime() - a.data.dateListed.getTime());
+const available = all.filter((l) => l.data.status === 'available');
+const rented = all.filter((l) => l.data.status === 'rented');
+
+const title = 'Rental Listings | TOP Property Management | Cornwall, Ontario';
+const description = 'Explore available rental listings with TOP Property Management in Cornwall, Ontario. Find quality rental homes and apartments for your perfect living space.';
+const breadcrumbs = [{ name: 'Home', href: '/' }, { name: 'Rental Listings', href: '/cornwall-rental-properties' }];
+const steps = [
+  { title: 'Browse listings', text: 'Check the available properties below or sign up for alerts so you hear about new units first.' },
+  { title: 'Contact us about a unit', text: 'Use the form on the listing page, email, or call. We’ll confirm availability and answer questions.' },
+  { title: 'Apply', text: 'Complete the application and provide ID, proof of income and references. Screening includes credit and reference checks.' },
+  { title: 'View and sign', text: 'If approved, we schedule a viewing, sign the Ontario Standard Lease and hand over the keys with a welcome gift.' },
+];
+---
+<Base {title} {description} {breadcrumbs}>
+  <section class="page-hero">
+    <div class="container">
+      <Breadcrumbs items={breadcrumbs} />
+      <p class="eyebrow">Cornwall rentals</p>
+      <h1>Explore Cornwall Rental Properties</h1>
+      <p class="lead">Find your next home in Cornwall, Ontario. Every unit we list is managed by our team, which means clear leases, fast repairs and a real person on the phone.</p>
+      <div class="cluster">
+        <a href={site.listingAlertsUrl} class="btn btn--primary" rel="noopener" target="_blank">Get alerts for new listings</a>
+        <a href="#apply" class="btn btn--outline">How to apply</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="listings">
+    <div class="container">
+      {available.length > 0 ? (
+        <>
+          <div class="section-head">
+            <h2>Available now</h2>
+            <p>{available.length} {available.length === 1 ? 'property' : 'properties'} currently available in Cornwall.</p>
+          </div>
+          <div class="grid grid--3">{available.map((l) => <ListingCard listing={l} />)}</div>
+        </>
+      ) : (
+        <div class="empty card card--mint">
+          <div class="icon-badge"><Icon name="home" /></div>
+          <h2>Nothing available right now</h2>
+          <p>Our Cornwall rentals lease quickly. Sign up for alerts and we’ll email you the moment a new unit is listed, before it hits the public sites.</p>
+          <a href={site.listingAlertsUrl} class="btn btn--primary" rel="noopener" target="_blank">Get listing alerts</a>
+        </div>
+      )}
+
+      {rented.length > 0 && (
+        <div class="rented">
+          <div class="section-head">
+            <h2>Recently rented</h2>
+            <p>A look at the kind of homes we manage. These units are no longer available.</p>
+          </div>
+          <div class="grid grid--3">{rented.map((l) => <ListingCard listing={l} />)}</div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="section section--mint">
+    <div class="container split">
+      <div class="photo-frame">
+        <Image src={photo} alt="Bright living room with large windows and a city view" widths={[480, 800, 1200]} sizes="(min-width: 900px) 45vw, 100vw" loading="lazy" />
+      </div>
+      <div>
+        <p class="eyebrow">Why rent with us</p>
+        <h2>Why Choose TOP Property Management for Your Next Rental?</h2>
+        <ul class="check-list">
+          <li><strong>Well-maintained properties.</strong> Inspections, prompt repairs and trusted trades keep our units in good shape.</li>
+          <li><strong>Quick, easy application.</strong> Clear requirements and a straightforward process, with decisions made promptly.</li>
+          <li><strong>Responsive support.</strong> A 24/7 emergency line and a team that answers during the day.</li>
+          <li><strong>Smart locks and welcome gifts.</strong> Secure access and a warm start in your new home.</li>
+        </ul>
+        <a href="/renters" class="btn btn--navy">Information for renters</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="apply">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <p class="eyebrow">Applying</p>
+        <h2>How to Apply for a Cornwall Rental Property</h2>
+      </div>
+      <ol class="steps">
+        {steps.map((s, i) => (
+          <li class="card">
+            <span class="step-num">{i + 1}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <CtaBand heading="Have questions? Contact us today" text="Not sure if a unit is right for you, or want to know what’s coming up? Reach out and we’ll help." primaryHref="/contact-us/cornwall-property-management" primaryLabel="Contact us" />
+</Base>
+
+<style>
+  .empty { text-align: center; max-width: 40rem; margin-inline: auto; padding: 2.5rem; display: grid; justify-items: center; gap: 0.75rem; }
+  .empty .icon-badge { margin: 0; }
+  .rented { margin-top: 3.5rem; }
+  .photo-frame { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); aspect-ratio: 4 / 3; }
+  .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+  .split .check-list { margin: 1.5rem 0 2rem; }
+  .split .check-list li { color: var(--text-muted); }
+  .split .check-list strong { color: var(--navy); }
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); counter-reset: step; }
+  .step-num { display: inline-grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: var(--green); color: #fff; font-family: var(--font-heading); font-weight: 700; margin-bottom: 1rem; }
+</style>

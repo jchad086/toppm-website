@@ -1,0 +1,30 @@
+---
+import { site } from '../data/site';
+import Icon from './Icon.astro';
+interface Props { heading?: string; text?: string; primaryHref?: string; primaryLabel?: string }
+const {
+  heading = 'Ready to hand off the hard parts?',
+  text = 'Tell us about your property and we’ll walk you through what management looks like, with no pressure and no obligation.',
+  primaryHref = '/contact-us/cornwall-property-management',
+  primaryLabel = 'Get in touch',
+} = Astro.props;
+---
+<section class="section section--navy cta-band">
+  <div class="container cta-band__inner">
+    <div>
+      <h2>{heading}</h2>
+      <p class="lead">{text}</p>
+    </div>
+    <div class="cluster">
+      <a href={primaryHref} class="btn btn--light btn--lg">{primaryLabel}</a>
+      <a href={site.phone.href} class="btn btn--ghost-light btn--lg"><Icon name="phone" size={18} /> {site.phone.display}</a>
+    </div>
+  </div>
+</section>
+<style>
+  .cta-band { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-700) 100%); }
+  .cta-band__inner { display: grid; gap: 2rem; align-items: center; }
+  @media (min-width: 900px) { .cta-band__inner { grid-template-columns: 1.4fr 1fr; } .cta-band .cluster { justify-content: flex-end; } }
+  .cta-band h2 { margin-bottom: 0.4em; }
+  .cta-band p { margin: 0; max-width: 50ch; }
+</style>

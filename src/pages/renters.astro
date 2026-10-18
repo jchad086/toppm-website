@@ -1,0 +1,118 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ListingCard from '../components/ListingCard.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Faq from '../components/Faq.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+import { faqSchema } from '../components/schema/localBusiness';
+import keysPhoto from '../assets/photos/keys.jpg';
+import movingPhoto from '../assets/photos/moving.jpg';
+
+const listings = (await getCollection('listings')).sort((a, b) => {
+  if (a.data.status !== b.data.status) return a.data.status === 'available' ? -1 : 1;
+  return b.data.dateListed.getTime() - a.data.dateListed.getTime();
+}).slice(0, 3);
+
+const title = 'Renters: Apartments & Homes for Rent in Cornwall, ON | TOP Property Management';
+const description = 'Looking to rent in Cornwall, Ontario? See current listings, learn how to apply, and find out what to expect from a TOP Property Management rental: smart locks, fast repairs and a 24/7 emergency line.';
+const breadcrumbs = [{ name: 'Home', href: '/' }, { name: 'Renters', href: '/renters' }];
+
+const faqs = [
+  { q: 'What do I need to apply for a rental?', a: 'Government photo ID, proof of income (recent pay stubs or an employment letter), references from previous landlords, and consent for a credit check. Students and newcomers without credit history can usually apply with a guarantor.' },
+  { q: 'How long does the application take?', a: 'Most applications are reviewed within one to two business days once we have all of the documents.' },
+  { q: 'What happens if something breaks?', a: `Submit a maintenance request by email or phone and we schedule the repair. For emergencies such as no heat, flooding or a lockout, call ${site.phone.display} any time, day or night.` },
+  { q: 'How do I pay rent?', a: 'Rent is paid electronically on the first of the month. We’ll set this up with you at lease signing.' },
+  { q: 'Do you allow pets?', a: 'It depends on the property. Each listing states whether pets are considered. In Ontario, landlords cannot charge pet deposits, and we follow the Residential Tenancies Act.' },
+  { q: 'How do I hear about new listings first?', a: 'Sign up for listing alerts. We email subscribers before units are posted to the public rental sites.' },
+];
+---
+<Base {title} {description} {breadcrumbs} jsonLd={[faqSchema(faqs)]}>
+  <section class="page-hero">
+    <div class="container">
+      <Breadcrumbs items={breadcrumbs} />
+      <p class="eyebrow">For renters</p>
+      <h1>Find Your Next Home in Cornwall, Ontario</h1>
+      <p class="lead">Well-maintained apartments and houses, a straightforward application, and a management team that answers the phone. That’s renting with TOP Property Management.</p>
+      <div class="cluster">
+        <a href="/cornwall-rental-properties" class="btn btn--primary btn--lg">See current listings</a>
+        <a href={site.listingAlertsUrl} class="btn btn--outline btn--lg" rel="noopener" target="_blank">Get listing alerts</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div class="photo-frame">
+        <Image src={keysPhoto} alt="Handing over a house key on a house-shaped keychain" widths={[480, 800, 1200]} sizes="(min-width: 900px) 45vw, 100vw" loading="eager" />
+      </div>
+      <div>
+        <p class="eyebrow">What to expect</p>
+        <h2>Renting from a company that treats you like a customer</h2>
+        <ul class="feature-list">
+          <li><Icon name="shield" /> <div><strong>Smart locks on every door we manage.</strong> No lost-key worries, and access is logged.</div></li>
+          <li><Icon name="wrench" /> <div><strong>Repairs that actually happen.</strong> In-house maintenance and trusted local trades, scheduled quickly.</div></li>
+          <li><Icon name="clock" /> <div><strong>24/7 emergency line.</strong> No heat in January? Someone picks up.</div></li>
+          <li><Icon name="gift" /> <div><strong>A welcome gift on move-in day.</strong> Small thing, but it says a lot about how we work.</div></li>
+          <li><Icon name="document" /> <div><strong>Ontario Standard Lease.</strong> Clear terms, no surprises, your rights respected.</div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mint" id="apply">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Applying</p>
+        <h2>How to Apply for a Rental</h2>
+        <ol class="timeline">
+          <li><span class="timeline__num">1</span><div><h3>Find a unit</h3><p>Browse the listings page or get alerts for new units.</p></div></li>
+          <li><span class="timeline__num">2</span><div><h3>Contact us</h3><p>Use the form on the listing, email, or call to confirm availability and book a showing.</p></div></li>
+          <li><span class="timeline__num">3</span><div><h3>Submit your application</h3><p>ID, proof of income and references. We run a credit check with your consent.</p></div></li>
+          <li><span class="timeline__num">4</span><div><h3>Sign and move in</h3><p>Sign the Ontario Standard Lease, pay first and last, and collect your keys and welcome gift.</p></div></li>
+        </ol>
+      </div>
+      <div class="photo-frame">
+        <Image src={movingPhoto} alt="Couple carrying moving boxes into their new apartment" widths={[480, 800, 1200]} sizes="(min-width: 900px) 45vw, 100vw" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Listings</p>
+        <h2>Current and recent Cornwall rentals</h2>
+      </div>
+      <div class="grid grid--3">{listings.map((l) => <ListingCard listing={l} />)}</div>
+      <p class="center more"><a href="/cornwall-rental-properties" class="link-arrow">All rental listings</a></p>
+    </div>
+  </section>
+
+  <section class="section section--mint-50">
+    <div class="container renter-grid">
+      <Faq heading="Renter questions, answered" items={faqs} />
+      <ContactForm heading="Ask about renting with us" subject="Renter enquiry — toppm.ca" defaultRole="renter" id="renter-contact" />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .photo-frame { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); aspect-ratio: 4 / 3; }
+  .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+  .feature-list { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 1rem; }
+  .feature-list li { display: grid; grid-template-columns: auto 1fr; gap: 0.9rem; align-items: start; color: var(--text-muted); }
+  .feature-list li svg { color: var(--green); margin-top: 0.1rem; }
+  .feature-list strong { color: var(--navy); display: block; }
+  .timeline { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 1.5rem; }
+  .timeline li { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: start; }
+  .timeline__num { display: inline-grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: var(--green); color: #fff; font-family: var(--font-heading); font-weight: 700; }
+  .timeline h3 { font-size: var(--step-1); margin-bottom: 0.25em; }
+  .timeline p { color: var(--text-muted); margin: 0; }
+  .more { margin-top: 2rem; }
+  .renter-grid { display: grid; gap: 2.5rem; }
+  @media (min-width: 960px) { .renter-grid { grid-template-columns: 1.1fr 1fr; align-items: start; } }
+</style>

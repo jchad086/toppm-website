@@ -1,0 +1,88 @@
+---
+import { site, nav, serviceAreas } from '../data/site';
+import Icon from './Icon.astro';
+import logoLight from '../assets/brand/logo-light.svg';
+import { getCollection } from 'astro:content';
+
+const areas = (await getCollection('areas')).sort((a, b) => a.data.order - b.data.order);
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src={logoLight.src} alt={site.name} width="220" height="54" loading="lazy" />
+        <p>Property management for owners and renters in Cornwall, Ontario and the surrounding SD&amp;G counties. Transparent, local, and on call 24/7.</p>
+        <ul class="contact-list">
+          <li><Icon name="phone" size={18} /><a href={site.phone.href}>{site.phone.display}</a></li>
+          <li><Icon name="mail" size={18} /><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li><Icon name="pin" size={18} /><span>Cornwall, Ontario, Canada</span></li>
+        </ul>
+        <div class="social">
+          <a href={site.social.facebook} rel="noopener" target="_blank" aria-label="TOP Property Management on Facebook"><Icon name="facebook" size={20} /></a>
+          <a href={site.social.google} rel="noopener" target="_blank" aria-label="TOP Property Management on Google"><Icon name="google" size={20} /></a>
+        </div>
+      </div>
+
+      <nav aria-label="Footer: company">
+        <h2 class="footer-heading">Company</h2>
+        <ul>
+          <li><a href="/">Home</a></li>
+          {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        </ul>
+      </nav>
+
+      <nav aria-label="Footer: service areas">
+        <h2 class="footer-heading">Areas we serve</h2>
+        <ul>
+          <li><a href="/">Cornwall</a></li>
+          {areas.map((a) => <li><a href={`/property-management/${a.id}`}>{a.data.name}</a></li>)}
+        </ul>
+      </nav>
+
+      <nav aria-label="Footer: resources">
+        <h2 class="footer-heading">Resources</h2>
+        <ul>
+          <li><a href="/how-to-file-n4-form">Ontario N4 form guide</a></li>
+          <li><a href="/about-us/cornwall-property-management#ServicesandPricing">Services &amp; pricing</a></li>
+          <li><a href="/about-us/cornwall-property-management#WhyChooseUs">Why choose us</a></li>
+          <li><a href="/property-owners#referrals">Referral program</a></li>
+          <li><a href={site.listingAlertsUrl} rel="noopener" target="_blank">Get listing alerts</a></li>
+          <li><a href="/renters#apply">How to apply</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© {year} {site.name}. All rights reserved.</p>
+      <p class="small">Serving {serviceAreas.slice(0, -2).join(', ')} and the SD&amp;G region.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { background: var(--navy); color: var(--on-dark-muted); padding-block: clamp(3rem, 6vw, 4.5rem) 1.5rem; margin-top: auto; }
+  .footer-grid { display: grid; gap: 2.5rem; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .footer-grid { grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 3rem; } }
+  .footer-brand img { height: 48px; width: auto; margin-bottom: 1.25rem; }
+  .footer-brand p { max-width: 36ch; }
+  .footer-heading { font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: #fff; margin-bottom: 1rem; }
+  .site-footer ul { list-style: none; padding: 0; margin: 0; }
+  .site-footer li { margin-bottom: 0.55rem; }
+  .site-footer a { color: var(--on-dark); text-decoration: none; }
+  .site-footer a:hover { color: var(--mint); text-decoration: underline; }
+  .contact-list li { display: flex; gap: 0.6rem; align-items: center; }
+  .contact-list svg { color: var(--green-300); flex-shrink: 0; }
+  .social { display: flex; gap: 0.6rem; margin-top: 1.25rem; }
+  .social a {
+    display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+    background: rgb(255 255 255 / 0.08); color: #fff;
+  }
+  .social a:hover { background: var(--green); }
+  .footer-bottom {
+    margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid rgb(255 255 255 / 0.12);
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; font-size: 0.9rem;
+  }
+  .footer-bottom p { margin: 0; }
+</style>

@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+---
+<Base title="Thank You | TOP Property Management" description="Your message has been sent to TOP Property Management. We’ll reply within one business day." noindex>
+  <section class="section">
+    <div class="container--narrow center thanks">
+      <div class="icon-badge"><Icon name="check" /></div>
+      <h1>Thanks, we’ve got your message</h1>
+      <p class="lead">Someone from our Cornwall team will get back to you within one business day. If it’s urgent, call <a href={site.phone.href}>{site.phone.display}</a>.</p>
+      <div class="cluster thanks__actions">
+        <a href="/" class="btn btn--primary">Back to home</a>
+        <a href="/cornwall-rental-properties" class="btn btn--outline">Browse rentals</a>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .thanks { padding-block: 3rem; display: grid; justify-items: center; }
+  .thanks__actions { justify-content: center; margin-top: 1rem; }
+</style>

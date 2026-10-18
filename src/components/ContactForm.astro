@@ -1,0 +1,116 @@
+---
+/**
+ * Formspree-backed contact form. Works as a plain HTML POST without JS;
+ * with JS it submits in place and shows a success message.
+ * Replace site.formspreeId in src/data/site.ts with your Formspree form ID.
+ */
+import { site } from '../data/site';
+
+interface Props {
+  heading?: string;
+  intro?: string;
+  subject?: string;
+  defaultRole?: 'owner' | 'renter';
+  compact?: boolean;
+  id?: string;
+}
+const {
+  heading = 'Let’s handle your property needs',
+  intro,
+  subject = 'New enquiry from toppm.ca',
+  defaultRole,
+  compact = false,
+  id = 'contact',
+} = Astro.props;
+const action = `https://formspree.io/f/${site.formspreeId}`;
+---
+<div class:list={['contact-form', { 'contact-form--compact': compact }]} id={id}>
+  {heading && <h2 class="contact-form__heading">{heading}</h2>}
+  {intro && <p class="muted">{intro}</p>}
+  <form action={action} method="POST" data-contact-form novalidate>
+    <input type="hidden" name="_subject" value={subject} />
+    <input type="hidden" name="page" value={Astro.url.pathname.replace(/\.html$/, '')} />
+    <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true" />
+
+    <div class="field-row">
+      <div class="field">
+        <label for={`${id}-name`}>Name</label>
+        <input id={`${id}-name`} name="name" type="text" autocomplete="name" required />
+      </div>
+      <div class="field">
+        <label for={`${id}-phone`}>Phone</label>
+        <input id={`${id}-phone`} name="phone" type="tel" autocomplete="tel" inputmode="tel" />
+      </div>
+    </div>
+    <div class="field">
+      <label for={`${id}-email`}>Email</label>
+      <input id={`${id}-email`} name="email" type="email" autocomplete="email" required />
+    </div>
+    <fieldset class="field">
+      <legend>I am a</legend>
+      <div class="choice-group">
+        <label class="choice"><input type="radio" name="role" value="Property owner" checked={defaultRole === 'owner'} required /><span>Property owner</span></label>
+        <label class="choice"><input type="radio" name="role" value="Renter" checked={defaultRole === 'renter'} /><span>Renter</span></label>
+        <label class="choice"><input type="radio" name="role" value="Other" /><span>Other</span></label>
+      </div>
+    </fieldset>
+    <div class="field">
+      <label for={`${id}-message`}>Message</label>
+      <textarea id={`${id}-message`} name="message" required></textarea>
+    </div>
+    <p class="form-status" role="status" aria-live="polite" data-status></p>
+    <button type="submit" class="btn btn--primary btn--lg">Send message</button>
+    <p class="small muted form-note">We reply within one business day. Or call <a href={site.phone.href}>{site.phone.display}</a>.</p>
+  </form>
+</div>
+
+<style>
+  .contact-form { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: clamp(1.5rem, 4vw, 2.5rem); box-shadow: var(--shadow-md); }
+  .contact-form--compact { padding: clamp(1.25rem, 3vw, 1.75rem); }
+  .contact-form__heading { font-size: var(--step-2); margin-bottom: 0.75rem; }
+  form { display: grid; gap: 1rem; margin-top: 1.25rem; }
+  fieldset { border: 0; padding: 0; margin: 0; }
+  legend { font-family: var(--font-heading); font-weight: 600; font-size: 0.92rem; color: var(--navy); padding: 0; margin-bottom: 0.4rem; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .form-status { margin: 0; min-height: 0; font-weight: 600; }
+  .form-status:empty { display: none; }
+  .form-status.is-error { color: #a12b2b; }
+  .form-status.is-success { color: var(--green); }
+  .form-note { margin: 0; }
+  button[type='submit'] { justify-self: start; }
+  form.is-sent .field, form.is-sent fieldset, form.is-sent button, form.is-sent .form-note { display: none; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('[data-status]');
+    form.addEventListener('submit', async (e) => {
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        form.reportValidity();
+        return;
+      }
+      if (form.action.includes('YOUR_FORMSPREE_ID')) {
+        e.preventDefault();
+        if (status) { status.textContent = 'This form is not connected yet. Please email rentals@toppm.ca or call (613) 416-3263.'; status.className = 'form-status is-error'; }
+        return;
+      }
+      e.preventDefault();
+      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      if (button) { button.disabled = true; button.textContent = 'Sending…'; }
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        if (res.ok) {
+          form.classList.add('is-sent');
+          if (status) { status.textContent = 'Thank you. Your message has been sent and we will get back to you as soon as possible.'; status.className = 'form-status is-success'; }
+          form.reset();
+        } else {
+          throw new Error('bad response');
+        }
+      } catch {
+        if (status) { status.textContent = 'Sorry, there was a problem sending your message. Please email rentals@toppm.ca or call (613) 416-3263.'; status.className = 'form-status is-error'; }
+        if (button) { button.disabled = false; button.textContent = 'Send message'; }
+      }
+    });
+  });
+</script>

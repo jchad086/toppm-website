@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const pathFor = (p: (typeof posts)[number]) => p.data.legacyPath ?? `/blog/${p.id}`;
+const fmt = (d: Date) => d.toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' });
+const title = 'Blog: Landlord & Renter Guides for Cornwall, Ontario | TOP Property Management';
+const description = 'Practical guides for Ontario landlords and renters from TOP Property Management in Cornwall: LTB forms, leasing, maintenance and the local rental market.';
+const breadcrumbs = [{ name: 'Home', href: '/' }, { name: 'Blog', href: '/blog' }];
+---
+<Base {title} {description} {breadcrumbs}>
+  <section class="page-hero">
+    <div class="container">
+      <Breadcrumbs items={breadcrumbs} />
+      <p class="eyebrow">Blog</p>
+      <h1>Guides for Ontario Landlords and Renters</h1>
+      <p class="lead">Plain-language explanations of the forms, rules and decisions that come with renting property in Cornwall and SD&amp;G.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--2">
+        {posts.map((p) => (
+          <article class="card post-card">
+            <p class="small muted">{fmt(p.data.pubDate)}</p>
+            <h2><a href={pathFor(p)}>{p.data.title}</a></h2>
+            <p>{p.data.description}</p>
+            <a href={pathFor(p)} class="link-arrow">Read the guide</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand heading="Have a question we haven’t answered?" text="Ask us. If it’s useful to other owners or renters, we’ll write it up." primaryLabel="Contact us" />
+</Base>
+<style>
+  .post-card { display: flex; flex-direction: column; gap: 0.6rem; }
+  .post-card h2 { font-size: var(--step-2); margin: 0; }
+  .post-card h2 a { color: var(--navy); text-decoration: none; }
+  .post-card h2 a:hover { color: var(--green); }
+  .post-card .link-arrow { margin-top: auto; }
+</style>

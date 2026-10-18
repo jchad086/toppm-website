@@ -1,0 +1,44 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import type { CollectionEntry } from 'astro:content';
+interface Props { listing: CollectionEntry<'listings'> }
+const { listing } = Astro.props;
+const { data } = listing;
+const cover = data.photos[0];
+const coverAlt = data.photoAlts[0] ?? `${data.title}, ${data.address}`;
+const href = `/cornwall-rental-properties/${listing.id}`;
+---
+<article class="listing-card">
+  <a href={href} class="listing-card__media" aria-hidden="true" tabindex="-1">
+    {cover ? <Image src={cover} alt={coverAlt} width={800} height={560} loading="lazy" /> : <div class="listing-card__placeholder"><Icon name="home" size={40} /></div>}
+    <span class:list={['badge', data.status === 'available' ? 'badge--available' : 'badge--rented']}>{data.status === 'available' ? 'Available' : 'Rented'}</span>
+  </a>
+  <div class="listing-card__body">
+    <p class="listing-card__address">{data.address}</p>
+    <h3><a href={href}>{data.title}</a></h3>
+    <p class="listing-card__meta">
+      <span><Icon name="bed" size={18} /> {data.beds} bed</span>
+      {data.baths && <span><Icon name="bath" size={18} /> {data.baths} bath</span>}
+      {data.rent ? <span><Icon name="dollar" size={18} /> ${data.rent.toLocaleString('en-CA')}/mo</span> : data.rentNote && <span>{data.rentNote}</span>}
+    </p>
+    <p class="muted">{data.summary}</p>
+    <a href={href} class="link-arrow">View details</a>
+  </div>
+</article>
+<style>
+  .listing-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; transition: box-shadow 0.2s ease, transform 0.2s ease; }
+  .listing-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .listing-card__media { position: relative; display: block; aspect-ratio: 10 / 7; background: var(--mint); }
+  .listing-card__media img { width: 100%; height: 100%; object-fit: cover; }
+  .listing-card__placeholder { height: 100%; display: grid; place-items: center; color: var(--green); }
+  .listing-card__media .badge { position: absolute; top: 0.9rem; left: 0.9rem; }
+  .listing-card__body { padding: 1.4rem; display: flex; flex-direction: column; gap: 0.6rem; flex: 1; }
+  .listing-card__address { margin: 0; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--green); font-family: var(--font-heading); font-weight: 600; }
+  .listing-card h3 { margin: 0; font-size: var(--step-1); }
+  .listing-card h3 a { color: var(--navy); text-decoration: none; }
+  .listing-card h3 a:hover { color: var(--green); }
+  .listing-card__meta { margin: 0; display: flex; flex-wrap: wrap; gap: 1rem; color: var(--text-muted); font-size: 0.95rem; }
+  .listing-card__meta span { display: inline-flex; align-items: center; gap: 0.35rem; }
+  .listing-card .link-arrow { margin-top: auto; }
+</style>

@@ -1,0 +1,66 @@
+---
+import '@fontsource-variable/outfit';
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+import Seo from '../components/Seo.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+import { localBusinessSchema, websiteSchema, breadcrumbSchema } from '../components/schema/localBusiness';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>[];
+  breadcrumbs?: { name: string; href: string }[];
+  publishedTime?: Date;
+  modifiedTime?: Date;
+}
+
+const { breadcrumbs, jsonLd = [], ...seo } = Astro.props;
+const blocks = [localBusinessSchema(), websiteSchema(), ...(breadcrumbs ? [breadcrumbSchema(breadcrumbs)] : []), ...jsonLd];
+---
+<!doctype html>
+<html lang="en-CA">
+  <head>
+    <Seo {...seo} jsonLd={blocks} />
+    {site.gaId && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${site.gaId}`}></script>
+        <script is:inline set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${site.gaId}',{anonymize_ip:true});`}></script>
+      </>
+    )}
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <script is:inline>
+      // Ensure in-page anchors (e.g. /about-us/...#ServicesandPricing) land correctly
+      // even when fonts and images shift the layout while the page loads.
+      addEventListener('load', () => {
+        const id = decodeURIComponent(location.hash.slice(1));
+        if (!id) return;
+        const el = document.getElementById(id);
+        if (!el) return;
+        const root = document.documentElement;
+        const prev = root.style.scrollBehavior;
+        root.style.scrollBehavior = 'auto';
+        el.scrollIntoView();
+        root.style.scrollBehavior = prev;
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  body { min-height: 100vh; display: flex; flex-direction: column; }
+  main { flex: 1; }
+</style>

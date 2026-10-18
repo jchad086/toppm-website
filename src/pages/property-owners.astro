@@ -1,0 +1,136 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ServiceGrid from '../components/ServiceGrid.astro';
+import PricingTable from '../components/PricingTable.astro';
+import Testimonials from '../components/Testimonials.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Faq from '../components/Faq.astro';
+import Icon from '../components/Icon.astro';
+import { site, pricing, services } from '../data/site';
+import { faqSchema, serviceSchema } from '../components/schema/localBusiness';
+import deskPhoto from '../assets/photos/owner-desk.jpg';
+import maintenancePhoto from '../assets/photos/maintenance.jpg';
+
+const title = 'Property Management for Owners in Cornwall, ON | $109/month | TOP Property Management';
+const description = 'Full-service rental property management for owners in Cornwall and SD&G: tenant screening, rent collection with direct deposit by the 10th, maintenance, inspections and 24/7 support for a flat $109 per unit per month.';
+const breadcrumbs = [{ name: 'Home', href: '/' }, { name: 'Property Owners', href: '/property-owners' }];
+
+const steps = [
+  { title: 'Tell us about your property', text: 'A quick call or site visit. We review the unit, the current rent and what it needs to lease well.' },
+  { title: 'We get it rent-ready and listed', text: 'Photos, pricing advice, listings on the major platforms, and showings handled by our team.' },
+  { title: 'We screen and sign', text: 'Credit, income, employment, references and eviction history. Then the Ontario Standard Lease and a move-in inspection.' },
+  { title: 'You get paid and kept informed', text: `Rent is deposited by the ${pricing.directDepositDay}, statements arrive monthly, and maintenance is handled within the limits you set.` },
+];
+const faqs = [
+  { q: 'How much does property management cost in Cornwall?', a: `TOP Property Management charges a flat $${pricing.monthlyFee} per unit per month for full-service management, plus a $${pricing.leaseRenewalFee} lease renewal fee. Volume discounts of 5% to 35% apply from five units. There is no percentage-of-rent fee.` },
+  { q: 'When do I receive my rent?', a: `Rent is direct-deposited to your account by the ${pricing.directDepositDay} of each month, along with a statement.` },
+  { q: 'How do you handle maintenance and repairs?', a: `You set per-item approval limits. In-house work has no trip charges or minimum fees. When an outside trade is needed, we coordinate it with a ${pricing.vendorFeePercent}% project management fee and send you the invoice.` },
+  { q: 'What does tenant screening include?', a: 'Credit check, income and employment verification, landlord references and eviction history. We also meet every applicant in person at a showing.' },
+  { q: 'Can you take over a property that already has tenants?', a: 'Yes. We review the existing lease, introduce ourselves to the tenants, complete a baseline inspection and move rent collection to our system without a gap.' },
+  { q: 'Do you handle LTB notices and hearings?', a: 'Yes. We prepare and serve N4 and other notices correctly, track deemed-receipt dates and file LTB applications on your behalf when needed.' },
+  { q: 'Which areas do you cover?', a: 'Cornwall and the surrounding SD&G counties, including Long Sault, Ingleside, Alexandria, Morrisburg, Lancaster and South Glengarry.' },
+];
+const jsonLd = [
+  faqSchema(faqs),
+  ...services.map((s) => serviceSchema(s.title, s.detail, '/property-owners')),
+];
+---
+<Base {title} {description} {breadcrumbs} {jsonLd}>
+  <section class="page-hero">
+    <div class="container">
+      <Breadcrumbs items={breadcrumbs} />
+      <p class="eyebrow">For property owners</p>
+      <h1>Hands-Off Property Management for Cornwall Landlords</h1>
+      <p class="lead">One flat fee. Rent in your account by the {pricing.directDepositDay}. Screened tenants, proactive maintenance and statements you can actually read. That is what {site.yearsExperience} years of managing Cornwall rentals looks like.</p>
+      <div class="cluster">
+        <a href="#owner-contact" class="btn btn--primary btn--lg">Get a free rental assessment</a>
+        <a href="#pricing" class="btn btn--outline btn--lg">See pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">What we do</p>
+        <h2>Everything your rental needs, handled</h2>
+      </div>
+      <ServiceGrid detailed />
+    </div>
+  </section>
+
+  <section class="section section--mint">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">How it works</p>
+        <h2>From first call to first deposit</h2>
+        <ol class="timeline">
+          {steps.map((s, i) => (
+            <li>
+              <span class="timeline__num">{i + 1}</span>
+              <div><h3>{s.title}</h3><p>{s.text}</p></div>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div class="photo-stack">
+        <div class="photo-frame"><Image src={deskPhoto} alt="Property owner reviewing a monthly statement at a desk" widths={[480, 800, 1200]} sizes="(min-width: 900px) 45vw, 100vw" loading="lazy" /></div>
+        <div class="photo-frame photo-frame--small"><Image src={maintenancePhoto} alt="Plumber tightening a pipe fitting during a repair" widths={[400, 700]} sizes="(min-width: 900px) 25vw, 60vw" loading="lazy" /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pricing">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Pricing</p>
+        <h2>Transparent Pricing for Cornwall Property Management</h2>
+        <p>No percentage of rent, no surprise markups. Here is the whole price list.</p>
+      </div>
+      <PricingTable />
+    </div>
+  </section>
+
+  <section class="section section--navy" id="referrals">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Referrals and acquisitions</p>
+        <h2>We Pay for Referrals and Buy Management Contracts</h2>
+        <p class="lead">Real estate agents, contractors and owners in the Cornwall area: refer a property owner or buyer who becomes a client and we pay you for it.</p>
+        <p class="lead">Retiring from property management, or just want out? We purchase management contracts from companies who no longer wish to manage property.</p>
+      </div>
+      <div class="cluster">
+        <a href="/contact-us/cornwall-property-management" class="btn btn--light btn--lg">I have a deal</a>
+        <a href={site.phone.href} class="btn btn--ghost-light btn--lg"><Icon name="phone" size={18} /> {site.phone.display}</a>
+      </div>
+    </div>
+  </section>
+
+  <Testimonials heading="What Cornwall owners say" />
+
+  <section class="section">
+    <div class="container owner-grid">
+      <div>
+        <Faq heading="Owner questions, answered" items={faqs} />
+      </div>
+      <ContactForm heading="Get a free rental assessment" intro="Tell us about your property and we’ll come back with a rent estimate and a plain-language outline of what management would cost." subject="Owner enquiry — toppm.ca" defaultRole="owner" id="owner-contact" />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .timeline { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 1.5rem; }
+  .timeline li { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: start; }
+  .timeline__num { display: inline-grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: var(--green); color: #fff; font-family: var(--font-heading); font-weight: 700; }
+  .timeline h3 { font-size: var(--step-1); margin-bottom: 0.25em; }
+  .timeline p { color: var(--text-muted); margin: 0; }
+  .photo-stack { position: relative; }
+  .photo-frame { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); aspect-ratio: 4 / 3; }
+  .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+  .photo-frame--small { position: absolute; width: 45%; right: -1rem; bottom: -2rem; border: 6px solid var(--mint); aspect-ratio: 1; }
+  @media (max-width: 899px) { .photo-stack { padding-bottom: 2rem; } }
+  .owner-grid { display: grid; gap: 2.5rem; }
+  @media (min-width: 960px) { .owner-grid { grid-template-columns: 1.1fr 1fr; align-items: start; } }
+</style>

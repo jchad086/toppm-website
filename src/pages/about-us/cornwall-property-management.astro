@@ -1,0 +1,134 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PricingTable from '../../components/PricingTable.astro';
+import Testimonials from '../../components/Testimonials.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import { site, services, whyChooseUs, pricing } from '../../data/site';
+import { getCollection } from 'astro:content';
+import aboutPhoto from '../../assets/photos/hero-house.jpg';
+
+const areas = (await getCollection('areas')).sort((a, b) => a.data.order - b.data.order);
+const title = 'About Us | TOP Property Management | Cornwall, Ontario';
+const description = 'Learn about TOP Property Management in Cornwall, Ontario. Trusted experts in Cornwall property management, connecting homeowners with quality tenants.';
+const breadcrumbs = [{ name: 'Home', href: '/' }, { name: 'About Us', href: '/about-us/cornwall-property-management' }];
+
+const fullServiceList = [
+  'Comprehensive tenant screening: credit, criminal, eviction history, references and income checks',
+  'Rent collection with strict timing policies',
+  '24/7 emergency maintenance line',
+  'Marketing and advertising of listings across the major online platforms',
+  'Financial record keeping, including income statements and rent rolls',
+  'Monthly and year-end statements, with year-end summaries in PDF or Excel',
+  `Direct deposit of rent by the ${pricing.directDepositDay} of each month`,
+  'Invoice payment management',
+  `Maintenance management: no trip charges or minimum fees on in-house work; external vendors carry a ${pricing.vendorFeePercent}% project management fee`,
+  'Move-in and move-out inspections with photo reports',
+  'Welcome gifts for new renters',
+  'Per-item maintenance approval limits set by you',
+  'Condominium management (coming soon)',
+];
+---
+<Base {title} {description} {breadcrumbs}>
+  <section class="page-hero">
+    <div class="container">
+      <Breadcrumbs items={breadcrumbs} />
+      <p class="eyebrow">About TOP Property Management</p>
+      <h1>Professional Property Management Services for Homeowners and Renters</h1>
+      <p class="lead">A local Cornwall team with more than {site.yearsExperience} years of experience managing rental homes and apartments across Cornwall and the SD&amp;G counties.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div class="photo-frame">
+        <Image src={aboutPhoto} alt="Brick home with a covered porch, typical of Cornwall's older residential neighbourhoods" widths={[480, 800, 1200]} sizes="(min-width: 900px) 45vw, 100vw" loading="eager" />
+      </div>
+      <div>
+        <p class="eyebrow">Who we are</p>
+        <h2>Local, hands-on, and accountable to you</h2>
+        <p>TOP Property Management was built around a simple idea: owners should always know where their investment stands, and renters should always have someone to call. We manage single homes, duplexes, triplexes and small apartment buildings for owners who live in Cornwall and for owners who live hours away.</p>
+        <p>Our systems are designed for transparency. Rent is deposited to your account by the {pricing.directDepositDay} of each month, statements are clear, inspections come with photos, and you set the approval limits for maintenance. When something happens at 2 a.m., our emergency line answers.</p>
+        <div class="cluster">
+          <a href="/contact-us/cornwall-property-management" class="btn btn--primary">Talk to us</a>
+          <a href={site.phone.href} class="btn btn--outline"><Icon name="phone" size={18} /> {site.phone.display}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mint" id="WhyChooseUs">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Why choose us</p>
+        <h2>Why We’re the Top Choice for Cornwall Property Management</h2>
+      </div>
+      <div class="grid grid--3">
+        {whyChooseUs.map((w, i) => (
+          <article class="card">
+            <span class="card-num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{w.title}</h3>
+            <p>{w.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="ServicesandPricing">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Services and pricing</p>
+        <h2>Our Cornwall Property Management Services and Pricing</h2>
+        <p>Transparent pricing for Cornwall property management. One flat monthly fee, a short list of other charges, and discounts as your portfolio grows.</p>
+      </div>
+      <PricingTable />
+      <div class="service-detail">
+        <h3>What’s included in full-service management</h3>
+        <ul class="check-list two-col">
+          {fullServiceList.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <div class="grid grid--3 service-cards">
+        {services.map((s) => (
+          <article class="card card--mint">
+            <h3>{s.title}</h3>
+            <p>{s.detail}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mint-50">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Where we work</p>
+        <h2>Serving Cornwall and the SD&amp;G counties</h2>
+        <p>Our office is in Cornwall and our regular service area covers Stormont, Dundas and Glengarry.</p>
+      </div>
+      <ul class="area-list">
+        <li><a href="/">Cornwall</a></li>
+        {areas.map((a) => <li><a href={`/property-management/${a.id}`}>{a.data.name}</a></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <Testimonials />
+  <CtaBand heading="Contact us today" text="Have a property in Cornwall or SD&G? Tell us about it and we’ll explain exactly what management would look like for you." />
+</Base>
+
+<style>
+  .photo-frame { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); aspect-ratio: 4 / 3; }
+  .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+  .card-num { font-family: var(--font-heading); font-weight: 700; color: var(--green-300); font-size: 1.1rem; display: block; margin-bottom: 0.5rem; }
+  .service-detail { margin-top: 3rem; }
+  .two-col { columns: 1; }
+  @media (min-width: 800px) { .two-col { columns: 2; column-gap: 2.5rem; } .two-col li { break-inside: avoid; } }
+  .service-cards { margin-top: 3rem; }
+  .area-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .area-list a { display: inline-block; padding: 0.6rem 1.1rem; background: #fff; border: 1px solid var(--border); border-radius: 999px; text-decoration: none; color: var(--navy); font-family: var(--font-heading); font-weight: 500; }
+  .area-list a:hover { border-color: var(--green); color: var(--green); }
+</style>

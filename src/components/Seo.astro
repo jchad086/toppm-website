@@ -1,0 +1,77 @@
+---
+/**
+ * Per-page <head> metadata: title, description, canonical, Open Graph,
+ * Twitter card, robots and any JSON-LD blocks passed in.
+ */
+import { site } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Absolute or site-relative path to a 1200×630 image */
+  image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>[];
+  publishedTime?: Date;
+  modifiedTime?: Date;
+}
+
+const {
+  title,
+  description,
+  image,
+  imageAlt = `${site.name} logo`,
+  type = 'website',
+  noindex = false,
+  jsonLd = [],
+  publishedTime,
+  modifiedTime,
+} = Astro.props;
+
+const siteUrl = import.meta.env.SITE ?? site.url;
+const pathname = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '').replace(/\/$/, '') || '/';
+const canonical = new URL(pathname === '/' ? '/' : pathname, siteUrl).href;
+
+// Default OG image: per-page generated image when present, else the branded default.
+const ogPath = image ?? `/og/${pathname === '/' ? 'home' : pathname.slice(1).replace(/\//g, '--')}.png`;
+const ogImage = new URL(ogPath, siteUrl).href;
+---
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex ? <meta name="robots" content="noindex, nofollow" /> : <meta name="robots" content="index, follow, max-image-preview:large" />}
+<meta name="theme-color" content="#011638" />
+<meta name="author" content={site.name} />
+<meta name="geo.region" content="CA-ON" />
+<meta name="geo.placename" content="Cornwall, Ontario" />
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:locale" content="en_CA" />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={imageAlt} />
+{publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
+{modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+<meta name="twitter:image:alt" content={imageAlt} />
+
+<link rel="icon" href="/favicon.ico" sizes="48x48" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+{jsonLd.map((block) => <script type="application/ld+json" set:html={JSON.stringify(block)} />)}
