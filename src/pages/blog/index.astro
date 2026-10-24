@@ -6,7 +6,7 @@ import CtaBand from '../../components/CtaBand.astro';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 const pathFor = (p: (typeof posts)[number]) => p.data.legacyPath ?? `/blog/${p.id}`;
-const fmt = (d: Date) => d.toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' });
+const fmt = (d: Date) => d.toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 const title = 'Blog: Landlord & Renter Guides for Cornwall, Ontario | TOP Property Management';
 const description = 'Practical guides for Ontario landlords and renters from TOP Property Management in Cornwall: LTB forms, leasing, maintenance and the local rental market.';
 const breadcrumbs = [{ name: 'Home', href: '/' }, { name: 'Blog', href: '/blog' }];

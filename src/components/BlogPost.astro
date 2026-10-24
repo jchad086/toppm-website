@@ -12,7 +12,7 @@ const { data } = post;
 const { Content, headings } = await render(post);
 const title = data.seoTitle ?? `${data.title} | ${site.name}`;
 const breadcrumbs = [{ name: 'Home', href: '/' }, { name: 'Blog', href: '/blog' }, { name: data.title, href: path }];
-const fmt = (d: Date) => d.toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' });
+const fmt = (d: Date) => d.toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 const toc = headings.filter((h) => h.depth === 2);
 const jsonLd = [{
   '@context': 'https://schema.org',
@@ -61,7 +61,7 @@ const jsonLd = [{
 
 <style>
   .post-meta { margin-top: 1rem; }
-  .post-layout { display: grid; gap: 2.5rem; }
+  .post-layout { display: grid; gap: 2.5rem; grid-template-columns: minmax(0, 1fr); }
   @media (min-width: 1000px) { .post-layout { grid-template-columns: 16rem minmax(0, 1fr); align-items: start; } .toc { position: sticky; top: calc(var(--header-h) + 1.5rem); } }
   .toc { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; font-size: 0.95rem; }
   .toc__title { font-family: var(--font-heading); font-weight: 600; color: var(--navy); margin-bottom: 0.6rem; }

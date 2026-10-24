@@ -3,7 +3,7 @@ title: "Ontario N4 Form: The Complete Landlord's Guide (Updated for Bill 60)"
 seoTitle: "Ontario N4 Form Guide (Bill 60): How to Fill Out & Serve an N4 | TOP Property Management"
 description: "How Ontario landlords complete and serve the N4 Notice for non-payment of rent, what changed under Bill 60, the 7-day termination date rules, and the mistakes that get N4s dismissed at the LTB."
 pubDate: 2026-05-23
-updatedDate: 2026-05-23
+updatedDate: 2026-10-24
 legacyPath: /how-to-file-n4-form
 tags: [landlords, ltb, forms, ontario]
 ---
@@ -87,6 +87,14 @@ This is where most N4 errors occur. Under Bill 60, the termination date must be 
 **Worked example, mail:** you mail the N4 on May 1. Deemed receipt is May 6. The 7-day period starts May 7. The earliest valid termination date is May 13.
 
 Do not count the day of service in the 7-day period. Start counting the following day.
+
+<div class="callout">
+
+**Skip the date math.** [EasyServe](https://easyserve.ca/?utm_source=toppm.ca&utm_medium=referral&utm_campaign=n4-guide) generates a completed N4 for Ontario landlords. It calculates the earliest valid termination date from your rent frequency and service method, totals the arrears to the cent, and flags ineligible charges like NSF fees before you serve. **$9 per N4**, with the Certificate of Service included.
+
+<a class="btn btn--primary" href="https://easyserve.ca/generate?utm_source=toppm.ca&utm_medium=referral&utm_campaign=n4-guide">Generate your N4 on EasyServe</a>
+
+</div>
 
 ### Section 5: Landlord signature
 
@@ -174,6 +182,23 @@ The N4 form is a straightforward document, but it carries real legal weight. A t
 - Complete the Certificate of Service immediately after delivering the notice.
 - File the L1 the day after the termination date, not before.
 
-For additional guidance, the [Tribunals Ontario](https://tribunalsontario.ca/ltb/) website and the [Landlord's Self-Help Centre](https://landlordselfhelp.com/) are excellent free resources. If you want to generate a compliant N4 quickly without the risk of manual errors, [EasyServe](https://www.easyserve.ca) is worth a look.
+For additional guidance, the [Tribunals Ontario](https://tribunalsontario.ca/ltb/) website and the [Landlord's Self-Help Centre](https://landlordselfhelp.com/) are excellent free resources.
+
+
+<div class="callout">
+
+**Get your N4 right the first time with EasyServe.** EasyServe is an N4 and L1 generator built for Ontario landlords and property managers. It:
+
+- Calculates the earliest valid termination date for your service method
+- Breaks arrears down period by period, rent only
+- Includes a Certificate of Service with every N4
+- Prefills your L1 from the served N4 when it's time to file
+- Can email the notice with open tracking, or print and mail it for you by Xpresspost
+
+One N4 costs **$9**, a fraction of what a paralegal charges. Visit [easyserve.ca](https://easyserve.ca/?utm_source=toppm.ca&utm_medium=referral&utm_campaign=n4-guide) to learn more.
+
+<a class="btn btn--primary" href="https://easyserve.ca/generate?utm_source=toppm.ca&utm_medium=referral&utm_campaign=n4-guide">Generate your N4 for $9</a>
+
+</div>
 
 *This guide is general information for Ontario landlords, not legal advice. Confirm current forms, notice periods and procedures with Tribunals Ontario before filing.*
