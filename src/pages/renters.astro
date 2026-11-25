@@ -17,8 +17,8 @@ const listings = (await getCollection('listings')).sort((a, b) => {
   return b.data.dateListed.getTime() - a.data.dateListed.getTime();
 }).slice(0, 3);
 
-const title = 'Renters: Apartments & Homes for Rent in Cornwall, ON | TOP Property Management';
-const description = 'Looking to rent in Cornwall, Ontario? See current listings, learn how to apply, and find out what to expect from a TOP Property Management rental: smart locks, fast repairs and a 24/7 emergency line.';
+const title = 'Apartments & Homes for Rent in Cornwall, ON | TOP PM';
+const description = 'Renting in Cornwall, Ontario? See current listings, how to apply, and what to expect from a TOP Property Management rental: fast repairs and a 24/7 line.';
 const breadcrumbs = [{ name: 'Home', href: '/' }, { name: 'Renters', href: '/renters' }];
 
 const faqs = [

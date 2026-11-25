@@ -1,7 +1,7 @@
 ---
 title: "Ontario N4 Form: The Complete Landlord's Guide (Updated for Bill 60)"
-seoTitle: "Ontario N4 Form Guide (Bill 60): How to Fill Out & Serve an N4 | TOP Property Management"
-description: "How Ontario landlords complete and serve the N4 Notice for non-payment of rent, what changed under Bill 60, the 7-day termination date rules, and the mistakes that get N4s dismissed at the LTB."
+seoTitle: "Ontario N4 Form Guide (Bill 60): Fill Out & Serve an N4"
+description: "How Ontario landlords fill out and serve the N4 for unpaid rent: what changed under Bill 60, the 7-day termination date, and mistakes that get N4s dismissed."
 pubDate: 2026-05-23
 updatedDate: 2026-10-24
 legacyPath: /how-to-file-n4-form
@@ -14,7 +14,7 @@ This guide covers everything you need to know: what the N4 is, how to complete a
 
 <div class="callout">
 
-**Managing rentals in Cornwall or SD&G?** TOP Property Management serves notices, tracks deemed-receipt dates and handles LTB filings for the owners we work with. [See what full-service management costs.](/about-us/cornwall-property-management#ServicesandPricing)
+**Managing rentals in Cornwall or SD&G?** TOP Property Management serves notices, tracks deemed-receipt dates and handles LTB filings for the owners we work with. [See what full-service management costs.](/property-owners#pricing)
 
 </div>
 

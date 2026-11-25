@@ -19,7 +19,7 @@ const listings = (await getCollection('listings')).sort((a, b) => {
 }).slice(0, 3);
 const available = listings.filter((l) => l.data.status === 'available').length;
 
-const title = 'TOP Property Management | Cornwall Property Management | Cornwall, ON';
+const title = 'Cornwall Property Management | TOP Property Management';
 const description = site.description;
 const jsonLd = [serviceSchema('Residential property management in Cornwall, Ontario', 'Full-service rental property management including tenant screening, rent collection, maintenance, lease management and 24/7 emergency support.', '/')];
 ---
@@ -71,7 +71,7 @@ const jsonLd = [serviceSchema('Residential property management in Cornwall, Onta
         <p>Everything a rental needs, from the first showing to the year-end statement. Pick full-service management or just the pieces you need.</p>
       </div>
       <ServiceGrid />
-      <p class="center services__more"><a href="/about-us/cornwall-property-management#ServicesandPricing" class="link-arrow">See the full service list and pricing</a></p>
+      <p class="center services__more"><a href="/property-owners#pricing" class="link-arrow">See the full service list and pricing</a></p>
     </div>
   </section>
 
@@ -157,7 +157,7 @@ const jsonLd = [serviceSchema('Residential property management in Cornwall, Onta
         <ul class="partners__list">
           {partners.map((p) => (
             <li class="card">
-              <h4><a href={p.url} rel="noopener" target="_blank">{p.name}</a></h4>
+              <h4>{p.url ? <a href={p.url} rel="noopener" target="_blank">{p.name}</a> : p.name}</h4>
               <p>{p.text}</p>
             </li>
           ))}

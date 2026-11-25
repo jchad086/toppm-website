@@ -1,8 +1,8 @@
 ---
 name: South Glengarry
 township: South Glengarry
-seoTitle: South Glengarry Property Management | Williamstown, Martintown, Green Valley | TOP PM
-description: Rental property management across South Glengarry Township, Ontario, including Williamstown, Martintown, Green Valley and Summerstown. Local service from TOP Property Management in Cornwall.
+seoTitle: South Glengarry Property Management | Williamstown | TOP PM
+description: Rental property management across South Glengarry, including Williamstown, Martintown, Green Valley and Summerstown, from TOP Property Management in Cornwall.
 intro: South Glengarry wraps around Cornwall's east side and includes Williamstown, Martintown, Green Valley, Summerstown and Glen Walter. Many of our owners live in Cornwall and own rentals in the township, or the other way around. We treat it as home turf.
 driveTime: 10 to 25 minutes from our Cornwall office
 order: 60
@@ -14,7 +14,7 @@ faqs:
   - q: Which communities in South Glengarry do you cover?
     a: Williamstown, Martintown, Green Valley, Summerstown, Glen Walter, Lancaster, North Lancaster, Bainsville and the surrounding rural roads.
   - q: Do rural rentals cost more to manage?
-    a: No. Our pricing is the same $109 per unit per month across the township. Maintenance costs depend on the property, and you set per-item approval limits so nothing is done without your say.
+    a: No. Our pricing is the same $149 per unit per month across the township. Maintenance costs depend on the property, and you set per-item approval limits so nothing is done without your say.
   - q: Can you take over a property that already has a tenant?
     a: Yes. We review the existing lease, introduce ourselves to the tenant, complete a baseline inspection and move rent collection to our system with no gap in service.
 ---

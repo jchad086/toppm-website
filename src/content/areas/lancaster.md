@@ -1,8 +1,8 @@
 ---
 name: Lancaster
 township: South Glengarry
-seoTitle: Lancaster Property Management | South Glengarry Rental Management | TOP PM
-description: Property management for rentals in Lancaster, Ontario and South Glengarry. Tenant screening, rent collection, inspections and 24/7 emergency support from TOP Property Management in Cornwall.
+seoTitle: Lancaster Property Management | South Glengarry | TOP PM
+description: Property management for rentals in Lancaster and South Glengarry. Tenant screening, rent collection, inspections and 24/7 support from TOP Property Management.
 intro: Lancaster sits where Highway 401 meets the Quebec border, with Lake St. Francis, Cooper Marsh and a growing number of commuters who work in Montreal but prefer Ontario rents. We manage rental homes and apartments across Lancaster and South Glengarry.
 driveTime: 20 minutes from our Cornwall office
 order: 50

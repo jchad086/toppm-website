@@ -13,8 +13,8 @@ import { faqSchema, serviceSchema } from '../components/schema/localBusiness';
 import deskPhoto from '../assets/photos/owner-desk.jpg';
 import maintenancePhoto from '../assets/photos/maintenance.jpg';
 
-const title = 'Property Management for Owners in Cornwall, ON | $109/month | TOP Property Management';
-const description = 'Full-service rental property management for owners in Cornwall and SD&G: tenant screening, rent collection with direct deposit by the 10th, maintenance, inspections and 24/7 support for a flat $109 per unit per month.';
+const title = `Cornwall Property Management for Owners | $${pricing.monthlyFee}/mo | TOP PM`;
+const description = `Full-service rental management for Cornwall and SD&G owners: tenant screening, rent deposited by the ${pricing.directDepositDay}, maintenance and 24/7 support. Flat $${pricing.monthlyFee} per unit.`;
 const breadcrumbs = [{ name: 'Home', href: '/' }, { name: 'Property Owners', href: '/property-owners' }];
 
 const steps = [
@@ -30,6 +30,7 @@ const faqs = [
   { q: 'What does tenant screening include?', a: 'Credit check, income and employment verification, landlord references and eviction history. We also meet every applicant in person at a showing.' },
   { q: 'Can you take over a property that already has tenants?', a: 'Yes. We review the existing lease, introduce ourselves to the tenants, complete a baseline inspection and move rent collection to our system without a gap.' },
   { q: 'Do you handle LTB notices and hearings?', a: 'Yes. We prepare and serve N4 and other notices correctly, track deemed-receipt dates and file LTB applications on your behalf when needed.' },
+  { q: 'Do you offer leasing services?', a: 'Yes. Leasing is a service we provide. Contact us about your property and we will walk you through it.' },
   { q: 'Which areas do you cover?', a: 'Cornwall and the surrounding SD&G counties, including Long Sault, Ingleside, Alexandria, Morrisburg, Lancaster and South Glengarry.' },
 ];
 const jsonLd = [
@@ -87,7 +88,7 @@ const jsonLd = [
       <div class="section-head">
         <p class="eyebrow">Pricing</p>
         <h2>Transparent Pricing for Cornwall Property Management</h2>
-        <p>No percentage of rent, no surprise markups. Here is the whole price list.</p>
+        <p>No percentage of rent, no surprise markups. Here is what management costs.</p>
       </div>
       <PricingTable />
     </div>

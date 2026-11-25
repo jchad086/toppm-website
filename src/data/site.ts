@@ -9,7 +9,7 @@ export const site = {
   url: 'https://www.toppm.ca',
   tagline: 'Cornwall property management you can trust',
   description:
-    'TOP Property Management offers trusted property management services in Cornwall, Ontario, connecting homeowners with quality tenants. Reach out today for all of your Cornwall property management needs!',
+    'Flat-fee property management in Cornwall, Ontario and SD&G. Tenant screening, rent collection, maintenance and 24/7 support from a local team you can trust.',
   phone: {
     display: '(613) 416-3263',
     e164: '+16134163263',
@@ -24,7 +24,7 @@ export const site = {
   geo: { lat: 45.0212, lng: -74.7307 },
   social: {
     facebook: 'https://www.facebook.com/profile.php?id=100090524349735',
-    google: 'https://g.co/kgs/DZxLrYA',
+    google: 'https://www.google.com/maps?cid=8259964778875540881',
   },
   /** Google Analytics 4 measurement ID (carried over from the previous site) */
   gaId: 'G-G486Y613LQ',
@@ -44,14 +44,14 @@ export const nav = [
   { label: 'Property Owners', href: '/property-owners' },
   { label: 'Renters', href: '/renters' },
   { label: 'Rentals', href: '/cornwall-rental-properties' },
-  { label: 'Pricing', href: '/about-us/cornwall-property-management#ServicesandPricing' },
+  { label: 'Pricing', href: '/property-owners#pricing' },
   { label: 'About', href: '/about-us/cornwall-property-management' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact-us/cornwall-property-management' },
 ] as const;
 
 export const pricing = {
-  monthlyFee: 109,
+  monthlyFee: 149,
   leaseRenewalFee: 99,
   vendorFeePercent: 10,
   directDepositDay: '10th',
@@ -170,7 +170,8 @@ export const partners = [
   },
   {
     name: 'Gryphon Systems',
-    url: 'https://gryphonsystems.net',
+    // gryphonsystems.net stopped resolving (checked 2026-11-24). Add the new address here to restore the link.
+    url: '',
     text: 'Cornwall’s trusted partner for security and access control systems.',
   },
 ] as const;

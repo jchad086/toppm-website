@@ -1,8 +1,8 @@
 ---
 name: Morrisburg
 township: South Dundas
-seoTitle: Morrisburg Property Management | South Dundas Rental Management | TOP PM
-description: Rental property management in Morrisburg and South Dundas, Ontario. Tenant placement, rent collection, maintenance coordination and reporting from TOP Property Management.
+seoTitle: Morrisburg Property Management | South Dundas | TOP PM
+description: Rental property management in Morrisburg and South Dundas. Tenant placement, rent collection, maintenance and reporting from TOP Property Management.
 intro: Morrisburg is the commercial centre of South Dundas, with a waterfront on the St. Lawrence, Upper Canada Village next door and steady demand from families, retirees and seasonal workers. We manage houses, apartments and small buildings here.
 driveTime: 40 minutes from our Cornwall office
 order: 40

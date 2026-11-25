@@ -1,8 +1,8 @@
 ---
 name: Long Sault
 township: South Stormont
-seoTitle: Long Sault Property Management | Rental Management in South Stormont | TOP PM
-description: Property management for rental homes in Long Sault, Ontario. Tenant screening, rent collection, maintenance and 24/7 support from Cornwall's trusted team, 15 minutes away.
+seoTitle: Long Sault Property Management | South Stormont | TOP PM
+description: Property management for rentals in Long Sault, Ontario. Tenant screening, rent collection, maintenance and 24/7 support from a Cornwall team 15 minutes away.
 intro: Long Sault sits on the St. Lawrence just west of Cornwall, with the Long Sault Parkway, the Lost Villages beaches and a steady demand for family rentals near the 401. We manage houses, duplexes and small multi-unit buildings here with the same systems we use across SD&G.
 driveTime: 15 minutes from our Cornwall office
 order: 10
@@ -16,7 +16,7 @@ faqs:
   - q: How quickly can you attend a maintenance call in Long Sault?
     a: Long Sault is about 15 minutes from Cornwall. Routine work is scheduled within days, and emergencies are handled through our 24/7 line.
   - q: What does property management cost in Long Sault?
-    a: Our standard rate is $109 per unit per month with a $99 lease renewal fee, the same transparent pricing we offer in Cornwall. Volume discounts start at five units.
+    a: Our standard rate is $149 per unit per month with a $99 lease renewal fee, the same transparent pricing we offer in Cornwall. Volume discounts start at five units.
 ---
 Long Sault's rental market is small but steady. Most tenants are families and commuters looking for a quieter alternative to Cornwall with quick access to Highway 401, the Parkway and the waterfront. That means well-kept houses and duplexes lease quickly when they are marketed properly and priced to the local market, not to Cornwall or Ottawa rates.
 

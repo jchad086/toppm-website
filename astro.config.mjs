@@ -9,6 +9,30 @@ export default defineConfig({
   build: {
     format: 'file',
   },
+  // Addresses from the previous (Duda) site that people or search engines may still follow.
+  // GitHub Pages cannot send real redirects, so each of these is built as a small page that
+  // forwards the visitor straight away. Folder addresses (/about-us, /contact-us,
+  // /property-management) are handled by the index.html files under public/.
+  redirects: {
+    '/home': '/',
+    '/property-management-cornwall-ontario-home': '/',
+    '/cart': '/',
+    '/property-management-cornwall-ont-about-us': '/about-us/cornwall-property-management',
+    '/about-us/copy-of-about-us': '/about-us/cornwall-property-management',
+    '/property-management-locations': '/about-us/cornwall-property-management',
+    '/property-management-cornwall-ont-contact': '/contact-us/cornwall-property-management',
+    '/property-managementy-location-cornwall-ontario-ont': '/contact-us/cornwall-property-management',
+    '/contact': '/contact-us/cornwall-property-management',
+    '/property-management-cornwall-ont-services-and-pricing': '/property-owners',
+    '/property-management-owner': '/property-owners',
+    '/property-management-acquisitions': '/property-owners',
+    '/property-management-referrals': '/property-owners',
+    '/property-management-agent': '/property-owners',
+    '/cornwall-ont-propety-rental-listings': '/cornwall-rental-properties',
+    '/property-management-renter': '/renters',
+    '/cornwall-ont-property-maintenance-request': '/renters',
+    '/residential-property-helpful-links': '/blog',
+  },
   integrations: [
     sitemap({
       changefreq: 'weekly',

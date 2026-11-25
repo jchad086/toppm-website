@@ -2,7 +2,6 @@
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import PricingTable from '../../components/PricingTable.astro';
 import Testimonials from '../../components/Testimonials.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import Icon from '../../components/Icon.astro';
@@ -84,7 +83,10 @@ const fullServiceList = [
         <h2>Our Cornwall Property Management Services and Pricing</h2>
         <p>Transparent pricing for Cornwall property management. One flat monthly fee, a short list of other charges, and discounts as your portfolio grows.</p>
       </div>
-      <PricingTable />
+      <div class="card card--mint price-summary">
+        <p><strong>${pricing.monthlyFee} per unit per month</strong> for full-service management, with no percentage of rent and volume discounts from five units.</p>
+        <a href="/property-owners#pricing" class="btn btn--primary">See the full price list</a>
+      </div>
       <div class="service-detail">
         <h3>What’s included in full-service management</h3>
         <ul class="check-list two-col">
@@ -124,6 +126,8 @@ const fullServiceList = [
   .photo-frame { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); aspect-ratio: 4 / 3; }
   .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
   .card-num { font-family: var(--font-heading); font-weight: 700; color: var(--green-300); font-size: 1.1rem; display: block; margin-bottom: 0.5rem; }
+  .price-summary { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between; }
+  .price-summary p { margin: 0; max-width: 60ch; }
   .service-detail { margin-top: 3rem; }
   .two-col { columns: 1; }
   @media (min-width: 800px) { .two-col { columns: 2; column-gap: 2.5rem; } .two-col li { break-inside: avoid; } }

@@ -10,7 +10,7 @@ rentNote: Utilities included
 dateListed: 2025-01-12
 summary: Bright, spacious 3-bedroom unit in a charming north-end triplex with utilities included, kitchen appliances, a private rear backyard and parking for one car.
 seoTitle: Reneal Rental | TOP Property Management | Cornwall, Ontario
-seoDescription: Bright three bedroom rental property located within the highly desirable north end of Cornwall, Ontario. Contact TOP Property Management for all of your Cornwall property management rental services!
+seoDescription: Bright three-bedroom rental in a north-end Cornwall triplex with utilities included, a private backyard and parking. Managed by TOP Property Management.
 features:
   - 3 bedrooms
   - Parking for one car in the rear

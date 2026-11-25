@@ -1,8 +1,8 @@
 ---
 name: Alexandria
 township: North Glengarry
-seoTitle: Alexandria Property Management | Glengarry Rental Management | TOP PM
-description: Property management services in Alexandria, Ontario and North Glengarry. Tenant screening, rent collection, lease management and 24/7 support from TOP Property Management.
+seoTitle: Alexandria Property Management | North Glengarry | TOP PM
+description: Property management in Alexandria and North Glengarry. Tenant screening, rent collection, lease management and 24/7 support from TOP Property Management.
 intro: Alexandria is the largest community in North Glengarry, with a walkable downtown, a VIA Rail stop on the Ottawa–Montreal line and a mix of century homes, apartments and newer builds. We manage residential rentals here for local and out-of-town owners.
 driveTime: 35 minutes from our Cornwall office
 order: 30

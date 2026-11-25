@@ -46,7 +46,8 @@ for (const file of walk(DIST)) {
   if (SKIP.has(rel)) continue;
   const slug = rel === 'index' ? 'home' : rel.replace(/[\\/]/g, '--');
   const html = fs.readFileSync(file, 'utf8');
-  const h1 = decode((html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/) || [])[1] || (html.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || 'TOP Property Management');
+  if (/http-equiv="refresh"/i.test(html)) continue; // forwarding page for an old address: no share image needed
+  const h1 =decode((html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/) || [])[1] || (html.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || 'TOP Property Management');
   const eyebrow = decode((html.match(/class="eyebrow"[^>]*>([\s\S]*?)<\/p>/) || [])[1] || 'Cornwall property management');
 
   let fontSize = 64;

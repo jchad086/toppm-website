@@ -1,8 +1,8 @@
 ---
 name: Ingleside
 township: South Stormont
-seoTitle: Ingleside Property Management | South Stormont Rental Management | TOP PM
-description: Rental property management in Ingleside, Ontario. Tenant placement, rent collection, inspections and emergency support from TOP Property Management in nearby Cornwall.
+seoTitle: Ingleside Property Management | South Stormont | TOP PM
+description: Rental property management in Ingleside, Ontario. Tenant placement, rent collection, inspections and emergency support from TOP Property Management in Cornwall.
 intro: Ingleside is a quiet St. Lawrence community between Long Sault and Morrisburg, close to Upper Canada Village and the Lost Villages beaches. We manage rental homes here for owners who live locally and for those who have moved away but kept the property.
 driveTime: 20 minutes from our Cornwall office
 order: 20
@@ -16,7 +16,7 @@ faqs:
   - q: Do you handle tenant screening for Ingleside properties?
     a: Every applicant goes through the same process regardless of location, including credit, income verification, employment, references and eviction history checks.
   - q: Is there a minimum contract length?
-    a: We do not lock owners into long contracts. Our pricing is month to month at $109 per unit, and most owners stay because the service works, not because they have to.
+    a: We do not lock owners into long contracts. Our pricing is month to month at $149 per unit, and most owners stay because the service works, not because they have to.
 ---
 Ingleside rentals tend to attract long-term tenants who want space, a yard and a slower pace. Vacancy is low when a home is in good condition and priced correctly, so the real work is keeping good tenants happy and the property maintained.
 

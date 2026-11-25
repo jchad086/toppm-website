@@ -56,6 +56,14 @@ const blocks = [localBusinessSchema(), websiteSchema(), ...(breadcrumbs ? [bread
         el.scrollIntoView();
         root.style.scrollBehavior = prev;
       });
+      // Analytics: count taps on phone and email links as leads.
+      addEventListener('click', (e) => {
+        const link = e.target instanceof Element ? e.target.closest('a[href^="tel:"], a[href^="mailto:"]') : null;
+        if (!link || typeof gtag !== 'function') return;
+        gtag('event', link.getAttribute('href').startsWith('tel:') ? 'phone_click' : 'email_click', {
+          link_area: link.closest('header') ? 'header' : link.closest('footer') ? 'footer' : 'page',
+        });
+      });
     </script>
   </body>
 </html>
